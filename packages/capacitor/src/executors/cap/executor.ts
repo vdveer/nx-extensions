@@ -26,9 +26,10 @@ export default async function* runExecutor(
   const packageVersion = devDependencies?.[packageName]?.replace(/[\\~^]/g, '');
   const preserveProjectNodeModules =
     options?.preserveProjectNodeModules || false;
-  const skipPackageManagerInstall = options?.skipPackageManagerInstallOnEveryCommand || false;
+  const skipPackageManagerInstall =
+    options?.skipPackageManagerInstallOnEveryCommand || false;
 
-  if(!skipPackageManagerInstall) {
+  if (!skipPackageManagerInstall) {
     await runCommands(
       {
         command: getPackageManagerCommand().install,
