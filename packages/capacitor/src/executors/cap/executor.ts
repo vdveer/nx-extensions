@@ -26,17 +26,20 @@ export default async function* runExecutor(
   const packageVersion = devDependencies?.[packageName]?.replace(/[\\~^]/g, '');
   const preserveProjectNodeModules =
     options?.preserveProjectNodeModules || false;
+  const skipPackageManagerInstall = options?.skipPackageManagerInstallOnEveryCommand || false;
 
-  await runCommands(
-    {
-      command: getPackageManagerCommand().install,
-      cwd: projectRootPath,
-      parallel: false,
-      color: true,
-      __unparsed__: [],
-    },
-    context
-  );
+  if(!skipPackageManagerInstall) {
+    await runCommands(
+      {
+        command: getPackageManagerCommand().install,
+        cwd: projectRootPath,
+        parallel: false,
+        color: true,
+        __unparsed__: [],
+      },
+      context
+    );
+  }
 
   if (!existsSync(projectDistPath)) {
     logger.info(`Running build first...`);
